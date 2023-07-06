@@ -1,0 +1,76 @@
+//Given a dictionary of words and a pattern. Every character in the pattern is uniquely mapped to a character in the dictionary. Find all such words in the dictionary that match the given pattern. 
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+vector<string> findMatchedWords(vector<string> dict,string pattern);
+
+int main()
+{
+	int t;
+	cin>>t;
+	while(t--)
+	{
+		int n;
+		cin>>n;
+		vector<string> s(n);
+		for(int i=0;i<n;i++)
+		    cin>>s[i];
+		
+		string tt;
+		cin>>tt;
+		
+		vector<string> res = findMatchedWords(s,tt);
+        sort(res.begin(),res.end());
+		for(int i=0;i<res.size();i++)
+		    cout<<res[i]<<" ";
+		cout<<endl;
+		
+	}
+}
+// } Driver Code Ends
+
+
+/* The function returns a  vector of strings 
+present in the dictionary which matches
+the string pattern.
+You are required to complete this method */
+vector<string> findMatchedWords(vector<string> dictionary,string pattern)
+{
+       //Your code here
+        std::vector<std::string> result;
+
+    for (const std::string& word : dictionary) {
+        if (word.length() != pattern.length()) {
+            continue;
+        }
+
+        std::unordered_map<char, char> wordToPattern;
+        std::unordered_map<char, char> patternToWord;
+        bool matchFound = true;
+
+        for (size_t i = 0; i < word.length(); i++) {
+            char w = word[i];
+            char p = pattern[i];
+
+            if (wordToPattern.count(w) && wordToPattern[w] != p) {
+                matchFound = false;
+                break;
+            }
+
+            if (patternToWord.count(p) && patternToWord[p] != w) {
+                matchFound = false;
+                break;
+            }
+
+            wordToPattern[w] = p;
+            patternToWord[p] = w;
+        }
+
+        if (matchFound) {
+            result.push_back(word);
+        }
+    }
+
+    return result;
+}
